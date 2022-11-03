@@ -1,0 +1,3 @@
+[submodule "gart-sh-frontend"]
+	path = frontend
+	url = https://github.com/gurrrrrrett3/gart-sh-frontend
