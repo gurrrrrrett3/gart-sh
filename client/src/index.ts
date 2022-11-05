@@ -21,15 +21,32 @@ document.getElementById("paste-submit")?.addEventListener("click", (e) => {
   inPaste = false;
 });
 
+const qs = new URLSearchParams(location.search);
+if (qs) {
+  // remove qs
+  history.replaceState({}, document.title, location.pathname);
+}
+
 setTimeout(() => {
   // qs handling
 
-  const qs = new URLSearchParams(location.search);
   const linked = qs.get("linked");
+  const log = qs.get("log");
+  const error = qs.get("error");
 
   if (linked) {
     terminal.log(`Link created! https://gart.sh/${linked} | <button onclick="navigator.clipboard.writeText('https://gart.sh/${linked}')" >Copy</button>`);
   }
+
+  if (log) {
+    terminal.log(log);
+  }
+
+  if (error) {
+    terminal.log(`<span class="red">${error}</span>`);
+  }
+
+  
 
   // keypress
 

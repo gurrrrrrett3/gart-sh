@@ -45,7 +45,7 @@ app.get("/link", async (req, res) => {
   if (qs.url) {
     res.redirect(`/?linked=${await ShortLinkManager.createLink(qs.url as string)}`);
   } else {
-    res.redirect("/");
+    res.redirect(`/?error=No+URL+provided`);
   }
 })
 
@@ -59,7 +59,7 @@ app.get("/:key", (req, res) => {
   if (url) {
     res.redirect(url);
   } else {
-    res.redirect("/");
+    res.redirect(`/?error=Link+not+found`);
   }
 });
 
