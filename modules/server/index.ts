@@ -9,6 +9,8 @@ import InstanceManager from "./instanceManager";
 import ShortLinkManager from "../links";
 import { config } from "dotenv";
 import qrcode from "qrcode";
+import apiRouter from "./routes/api";
+import cors from "cors"
 
 const args = process.argv.slice(2);
 if (args.includes("--dev")) {
@@ -20,6 +22,7 @@ config();
 
 const im = new InstanceManager();
 const app = express();
+app.use(express.json());
 const server = args.includes("--dev") ? http.createServer(app) : https.createServer({
   key: fs.readFileSync(process.env.KEY as string),
   cert: fs.readFileSync(process.env.CERT as string),
@@ -29,6 +32,9 @@ const io = new socket.Server<ClientToServerEvents, ServerToClientEvents, InterSe
   server
 );
 
+app.use(cors())
+
+app.use("/api", apiRouter)
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./client/index.html"));
 });
