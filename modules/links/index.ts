@@ -39,9 +39,22 @@ export default class ShortLinkManager {
     return key;
   }
 
-    static getLink(key: string) {
-        if (this.links.hasOwnProperty(key)) {
-            return this.links[key];
-        } else return undefined;
-    }
+  static getLink(key: string) {
+    if (this.links.hasOwnProperty(key)) {
+      // update link in database
+      db.link.update({
+        where: {
+          key,
+        },
+        data: {
+          uses: {
+            increment: 1,
+          },
+          lastUsedAt: new Date(),
+        },
+      });
+
+      return this.links[key];
+    } else return undefined;
+  }
 }
