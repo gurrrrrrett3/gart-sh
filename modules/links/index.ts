@@ -24,7 +24,10 @@ export default class ShortLinkManager {
     return key;
   }
 
-  static async getLink(key: string) {
+  
+  static async getLink(key:string, urlOnly: true): Promise<string | undefined>
+  static async getLink(key:string, urlOnly?: false): Promise<{ url: string, options: { [key: string]: string | boolean | number } } | string | undefined>
+  static async getLink(key: string, urlOnly = false): Promise<{ url: string, options: { [key: string]: string | boolean | number } } | string | undefined> {
     const link = await db.link.findUnique({
       where: {
         key,
@@ -45,9 +48,22 @@ export default class ShortLinkManager {
       });
 
       if (link.options) {
+
+        const options = JSON.parse(link.options)
+        if (options.uses) {
+          if (link.uses >= options.uses) {
+            await db.link.delete({
+              where: {
+                key,
+              },
+            });
+          }
+        }
+
+        if (urlOnly) return link.url;
         return {
           url: link.url,
-          options: JSON.parse(link.options),
+          options,
         };
       }
 
