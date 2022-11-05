@@ -2,6 +2,7 @@
 
 import gshConsole from "../../modules/console";
 import ShortLinkManager from "../../modules/links";
+import GlobalUtils from "../../modules/util/globalUtils";
 
 const link = {
     name: 'link',
@@ -14,13 +15,23 @@ const link = {
             required: true
         }
     ],
+    options: [
+        {
+            name: '--noembed',
+            desc: 'Prevent link from being embedded',
+        }
+    ],
     run: async (self: gshConsole, args: string[]) => {
         const link = args[0]
         if (!link) {
             return "link: missing operand"
         }
 
-        const key = await ShortLinkManager.createLink(link)
+        const options = GlobalUtils.formatOptions(args.slice(1))
+
+        console.log(options)
+        
+        const key = await ShortLinkManager.createLink(link, options)
         return `Link created! <a href="https://gart.sh/${key}">https://gart.sh/${key}</a> | <button onclick="navigator.clipboard.writeText('https://gart.sh/${key}')" >Copy</button>`
     }
 }

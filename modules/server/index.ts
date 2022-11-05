@@ -56,8 +56,17 @@ io.on("connection", (socket) => {
 
 app.get("/:key", async (req, res) => {
   const url = await ShortLinkManager.getLink(req.params.key);
-  if (url) {
+  if (url && typeof url === "string") {
     res.redirect(url);
+  } else if (url && typeof url === "object") {
+    
+    const u = url.url
+    const options = url.options
+
+    if (options.noembed) {
+      res.send(`<script>window.location.href = "${u}"</script>`)
+    }
+
   } else {
     res.redirect(`/?error=Link+not+found`);
   }

@@ -1,13 +1,14 @@
 import { db } from "../..";
 
 export default class ShortLinkManager {
-  static async createLink(url: string) {
+  static async createLink(url: string, options?: { [key: string]: string | boolean | number }) {
     const key = await this.generateKey();
     // save link to database
     await db.link.create({
       data: {
         url,
         key,
+        options: options ? JSON.stringify(options) : undefined,
       },
     });
 
@@ -42,6 +43,13 @@ export default class ShortLinkManager {
           lastUsedAt: new Date(),
         },
       });
+
+      if (link.options) {
+        return {
+          url: link.url,
+          options: JSON.parse(link.options),
+        };
+      }
 
       return link.url;
     } else return undefined;
