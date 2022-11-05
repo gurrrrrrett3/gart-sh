@@ -21,8 +21,7 @@ const link = {
         }
 
         const key = await ShortLinkManager.createLink(link)
-        navigator.clipboard.writeText(`https://gart.sh/${key}`);
-        return `Link created! <a href="https://gart.sh/${key}">https://gart.sh/${key}</a> | Copied to clipboard!`
+        return `Link created! <a href="https://gart.sh/${key}">https://gart.sh/${key}</a> | <button onclick="navigator.clipboard.writeText('https://gart.sh/${key}')" >Copy</button>`
     }
 }
 
