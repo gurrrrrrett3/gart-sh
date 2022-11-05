@@ -1,6 +1,23 @@
 import { db } from "../..";
-
 export default class ShortLinkManager {
+  public static links = new Map<
+    string,
+    {
+      url: string;
+      options: { [key: string]: string | boolean | number };
+    }
+  >();
+
+  public static async init() {
+    const links = await db.link.findMany();
+    links.forEach((link) => {
+      this.links.set(link.key, {
+        url: link.url,
+        options: link.options ? JSON.parse(link.options) : {},
+      });
+    });
+  }
+
   static async createLink(url: string, options?: { [key: string]: string | boolean | number }) {
     const key = await this.generateKey();
     // save link to database
@@ -24,17 +41,16 @@ export default class ShortLinkManager {
     return key;
   }
 
-  
-  static async getLink(key:string, urlOnly: true): Promise<string | undefined>
-  static async getLink(key:string, urlOnly?: false): Promise<{ url: string, options: { [key: string]: string | boolean | number } } | string | undefined>
-  static async getLink(key: string, urlOnly = false): Promise<{ url: string, options: { [key: string]: string | boolean | number } } | string | undefined> {
-    const link = await db.link.findUnique({
-      where: {
-        key,
-      },
-    });
-    if (link) {
-      // update link in database
+  static async getLink(key: string, urlOnly: true): Promise<string | undefined>;
+  static async getLink(
+    key: string,
+    urlOnly?: false
+  ): Promise<{ url: string; options: { [key: string]: string | boolean | number } } | string | undefined>;
+  static async getLink(
+    key: string,
+    urlOnly = false
+  ): Promise<{ url: string; options: { [key: string]: string | boolean | number } } | string | undefined> {
+    if (this.links.has(key)) {
       await db.link.update({
         where: {
           key,
@@ -47,28 +63,23 @@ export default class ShortLinkManager {
         },
       });
 
-      if (link.options) {
-
-        const options = JSON.parse(link.options)
-        if (options.uses) {
-          if (link.uses >= options.uses) {
-            await db.link.delete({
-              where: {
-                key,
-              },
-            });
-          }
-        }
-
-        if (urlOnly) return link.url;
-        return {
+      await this.updateLink(key);
+      return this.links.get(key)?.url;
+    } else {
+      const link = await db.link.findUnique({
+        where: {
+          key,
+        },
+      });
+      if (link) {
+        this.links.set(key, {
           url: link.url,
-          options,
-        };
-      }
-
-      return link.url;
-    } else return undefined;
+          options: link.options ? JSON.parse(link.options) : {},
+        });
+        await this.updateLink(key);
+        return urlOnly ? link.url : this.links.get(key);
+      } else return undefined;
+    }
   }
 
   static async getStats(key: string) {
@@ -80,6 +91,22 @@ export default class ShortLinkManager {
       });
 
       return link;
+    } else return undefined;
+  }
+
+  static async updateLink(key: string) {
+    if (await db.link.findUnique({ where: { key } })) {
+      await db.link.update({
+        where: {
+          key,
+        },
+        data: {
+          uses: {
+            increment: 1,
+          },
+          lastUsedAt: new Date(),
+        },
+      });
     } else return undefined;
   }
 }

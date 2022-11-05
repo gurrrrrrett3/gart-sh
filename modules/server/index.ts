@@ -29,6 +29,8 @@ const io = new socket.Server<ClientToServerEvents, ServerToClientEvents, InterSe
   server
 );
 
+ShortLinkManager.init();
+
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./client/index.html"));
 });
@@ -74,9 +76,11 @@ io.on("connection", (socket) => {
 
 app.get("/:key", async (req, res) => {
   const url = await ShortLinkManager.getLink(req.params.key);
+  console.log(url);
   if (url && typeof url === "string") {
     res.redirect(url);
   } else if (url && typeof url === "object") {
+    console.log(url);
     
     const u = url.url
     const options = url.options
@@ -84,6 +88,8 @@ app.get("/:key", async (req, res) => {
     if (options.noembed) {
       res.send(`<script>window.location.href = "${u}"</script>`)
     }
+
+    res.redirect(url.url);
 
   } else {
     res.redirect(`/?error=Link+not+found`);
