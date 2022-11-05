@@ -9,11 +9,17 @@ import InstanceManager from "./instanceManager";
 import ShortLinkManager from "../links";
 import { config } from "dotenv";
 
+const args = process.argv.slice(2);
+if (args.includes("--dev")) {
+  console.log("Running in development mode");
+  config({ path: path.resolve("./.env.dev") });
+} else {
 config();
+}
 
 const im = new InstanceManager();
 const app = express();
-const server = https.createServer({
+const server = args.includes("--dev") ? http.createServer(app) : https.createServer({
   key: fs.readFileSync(process.env.KEY as string),
   cert: fs.readFileSync(process.env.CERT as string),
 }, app);
@@ -33,6 +39,15 @@ app.get("/main.js", (req, res) => {
 app.get("/main.js.LICENSE.txt", (req, res) => {
   res.sendFile(path.resolve("./dist/frontend/main.js.LICENSE.txt"));
 });
+
+app.get("/link", async (req, res) => {
+  const qs = req.query;
+  if (qs.url) {
+    res.redirect(`/?linked=${await ShortLinkManager.createLink(qs.url as string)}`);
+  } else {
+    res.redirect("/");
+  }
+})
 
 io.on("connection", (socket) => {
   const id = im.createInstance(socket);

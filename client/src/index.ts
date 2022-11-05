@@ -22,32 +22,42 @@ document.getElementById("paste-submit")?.addEventListener("click", (e) => {
 });
 
 setTimeout(() => {
+  // qs handling
+
+  const qs = new URLSearchParams(location.search);
+  const linked = qs.get("linked");
+
+  if (linked) {
+    terminal.log(`Link created! https://gart.sh/${linked}`);
+  }
+
+  // keypress
+
   addEventListener("keydown", async (e) => {
     if (inPaste) return;
-  
+
     if (e.ctrlKey) {
       switch (e.key) {
         case "l":
           terminal.clear();
           break;
-        case "v": 
-  
-        // open a popup to paste text
-        document.getElementById("paste-form")?.attributes.removeNamedItem("hidden");
-        document.getElementById("paste")?.focus()
-        inPaste = true;
-        break;
-  
+        case "v":
+          // open a popup to paste text
+          document.getElementById("paste-form")?.attributes.removeNamedItem("hidden");
+          document.getElementById("paste")?.focus();
+          inPaste = true;
+          break;
+
         case "Backspace":
           // delete until the next space
           const lastSpace = input.lastIndexOf(" ");
           input = input.slice(0, lastSpace == -1 ? 0 : lastSpace - 1);
           terminal.setCurrentInput(input);
       }
-  
+
       return;
     }
-  
+
     switch (e.key) {
       case "Enter":
         terminal.run(input);
@@ -89,7 +99,6 @@ setTimeout(() => {
       case "Escape":
         break;
       default:
-  
         if (terminal.cursorLocation === 0) {
           input += e.key;
           terminal.setCurrentInput(input);
@@ -100,10 +109,10 @@ setTimeout(() => {
             e.key +
             input.slice(input.length + terminal.cursorLocation + 1, input.length);
           terminal.setCurrentInput(input);
-  
+
           console.log(input);
         }
         break;
-    } 
+    }
   });
 }, 1000);

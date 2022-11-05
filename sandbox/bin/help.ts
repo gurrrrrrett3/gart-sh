@@ -2,7 +2,6 @@
 
 import { readdirSync } from "fs";
 import gshConsole from "../../modules/console";
-import PathUtils from "../../modules/util/pathUtils";
 import path from "path";
 
 const help = {

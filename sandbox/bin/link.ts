@@ -1,9 +1,7 @@
 // type: gsh command
 
-import { readFileSync, existsSync, statSync } from "fs";
 import gshConsole from "../../modules/console";
 import ShortLinkManager from "../../modules/links";
-import PathUtils from "../../modules/util/pathUtils";
 
 const link = {
     name: 'link',

@@ -1,8 +1,6 @@
 // type: gsh command
 
-import { readFileSync, existsSync, statSync } from "fs";
 import gshConsole from "../../modules/console";
-import PathUtils from "../../modules/util/pathUtils";
 
 const pwd = {
     name: 'pwd',
