@@ -9,7 +9,7 @@ export default class gshTerminal {
   public location: string = "/home/gart";
   public user = "gart";
   public ver = "0.0.1";
-  public cursor = '<span class="cursor">_</span>';
+  public cursor = '<span class="cursor" id="cursor">_</span>';
   public cursorLocation = 0;
   public id = "";
 
