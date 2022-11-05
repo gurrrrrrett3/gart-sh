@@ -7,7 +7,7 @@
     "start": "node ./dist/index.js",
     "build": "tsc",
     "dev": "nodemon --watch src --exec \"npm run build && npm run start\"",
-    "update": "git pull; tsc; npx webpack --mode-production; pm2 restart 1"
+    "update": "git pull; tsc; npx webpack --mode production; pm2 restart 1"
   },
   "devDependencies": {
     "@types/express": "^4.17.14",

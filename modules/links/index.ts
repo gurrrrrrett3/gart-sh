@@ -57,4 +57,16 @@ export default class ShortLinkManager {
       return this.links[key];
     } else return undefined;
   }
+
+  static async getStats(key: string) {
+    if (this.links.hasOwnProperty(key)) {
+      const link = await db.link.findUnique({
+        where: {
+          key,
+        },
+      });
+
+      return link;
+    } else return undefined;
+  }
 }

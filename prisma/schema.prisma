@@ -16,5 +16,5 @@ model Link {
   url         String
   uses        Int     @default(0)
   createdAt   DateTime @default(now())
-  lastUsedAt  DateTime?
+  lastUsedAt  DateTime @default(now())
 }
