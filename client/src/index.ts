@@ -31,9 +31,9 @@ setTimeout(() => {
   // qs handling
 
   const linked = qs.get("linked");
-  const qr = qs.get("qr");
   const log = qs.get("log");
   const error = qs.get("error");
+  const from = qs.get("from");
 
   if (linked) {
     terminal.log(`Link created! https://gart.sh/${linked} | <button onclick="navigator.clipboard.writeText('https://gart.sh/${linked}')" >Copy</button>`);
@@ -47,6 +47,9 @@ setTimeout(() => {
     terminal.log(`<span class="red">${error}</span>`);
   }
 
+  if (from) {
+    terminal.log(`<button onclick="window.location.href = '${from}'">Return to ${new URL(from).host}</button>`);
+  }
   
 
   // keypress

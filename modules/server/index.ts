@@ -44,7 +44,7 @@ app.get("/main.js.LICENSE.txt", (req, res) => {
 app.get("/link", async (req, res) => {
   const qs = req.query;
   if (qs.url) {
-    res.redirect(`/?linked=${await ShortLinkManager.createLink(qs.url as string)}`);
+    res.redirect(`/?linked=${await ShortLinkManager.createLink(qs.url as string)}&from=${qs.url}`);
   } else {
     res.redirect(`/?error=No+URL+provided`);
   }
@@ -61,7 +61,7 @@ app.get("/qr", async (req, res) => {
 
     const dataURL = await ShortLinkManager.createLink(out)
 
-    res.redirect(`/?log=QR+Code+created!+<br><img+src="${dataURL}"/>`);
+    res.redirect(`/?log=QR+Code+created!+<br><img+src="${dataURL}"/>&from=${qs.url}`);
   } else {
     res.redirect(`/?error=No+URL+provided`);
   }
