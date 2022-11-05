@@ -29,8 +29,6 @@ const io = new socket.Server<ClientToServerEvents, ServerToClientEvents, InterSe
   server
 );
 
-ShortLinkManager.init();
-
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./client/index.html"));
 });
