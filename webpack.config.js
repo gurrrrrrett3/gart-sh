@@ -13,24 +13,6 @@ module.exports = {
   },
   resolve: {
     extensions: [".ts", ".js"],
-    fallback: {
-      // stream: require.resolve("stream-browserify"),
-      // url: require.resolve("url/"),
-      // crypto: require.resolve("crypto-browserify"),
-      // buffer: require.resolve("buffer/"),
-      // zlib: require.resolve("browserify-zlib"),
-      // http: require.resolve("stream-http"),
-      // https: require.resolve("https-browserify"),
-      // assert: require.resolve("assert/"),
-      // util: require.resolve("util/"),
-      // net: require.resolve("net-browserify"),
-      // os: require.resolve("os-browserify/browser"),
-      // path: require.resolve("path-browserify"),
-      // tls: require.resolve("tls-browserify"),
-      // "utf-8-validate": require.resolve("utf-8-validate"),
-      // bufferutil: require.resolve("bufferutil"),
-      // fs: false,
-    },
   },
   plugins: [
     new IgnorePlugin({

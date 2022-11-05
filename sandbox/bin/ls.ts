@@ -1,6 +1,6 @@
 // type: gsh command
 
-import { readdirSync, readFileSync, statSync } from "fs";
+import { readdirSync, readFileSync, statSync, existsSync } from "fs";
 import gshConsole from "../../modules/console";
 import PathUtils from "../../modules/util/pathUtils";
 
@@ -18,6 +18,10 @@ const ls = {
   run: async (self: gshConsole, args: string[]) => {
     const location = args[0] || self.location;
     const path = PathUtils.resolve(location);
+
+    if (!path.includes("/sandbox")) return `ls: ${args[0]}: Permission denied`;
+    if (!statSync(path).isDirectory() || !existsSync(path)) return `ls: ${args[0]}: No such directory`;
+
     let files = readdirSync(path, "utf8");
 
     files = files.map((file) => {
@@ -37,8 +41,8 @@ const ls = {
       return file;
     });
 
-    return files.join(" ")
+    return files.join(" ");
   },
 };
 
-export default ls
+export default ls;

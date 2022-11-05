@@ -17,10 +17,13 @@ const cat = {
     ],
     run: async (self: gshConsole, args: string[]) => {
         const path = PathUtils.resolve(self.location + args[0])
+
+        console.log(`Path: ${path}`)
+
         if (!existsSync(path) || !statSync(path).isFile()) 
             return `cat: ${args[0]}: No such file or directory`
         if (!path.includes("/sandbox"))
-            return `cd: ${args[0]}: Permission denied`
+            return `cat: ${args[0]}: Permission denied`
         const file = readFileSync(path, 'utf8');
         return file;
     }
