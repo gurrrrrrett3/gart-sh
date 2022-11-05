@@ -8,8 +8,7 @@ import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketDa
 import InstanceManager from "./instanceManager";
 import ShortLinkManager from "../links";
 import { config } from "dotenv";
-import qr from "../../sandbox/bin/qr";
-import gshConsole from "../console";
+import qrcode from "qrcode";
 
 const args = process.argv.slice(2);
 if (args.includes("--dev")) {
@@ -53,10 +52,14 @@ app.get("/link", async (req, res) => {
 
 app.get("/qr", async (req, res) => {
   const qs = req.query;
-  if (qs.url) {
+  if (qs.url && typeof qs.url === "string") {
 
-    const r = await qr.run(undefined as any, [qs.url as string, "--shortlink"])
-    res.redirect(`/?log=${r}`);
+    const out = await qrcode.toDataURL(qs.url, {
+      margin: 0.5,
+      width: 512,
+    });
+
+    res.redirect(`/?log=QR+Code+created!+<br><img+src="${out}"/>`);
   } else {
     res.redirect(`/?error=No+URL+provided`);
   }
