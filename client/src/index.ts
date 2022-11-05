@@ -28,7 +28,8 @@ setTimeout(() => {
   const linked = qs.get("linked");
 
   if (linked) {
-    terminal.log(`Link created! https://gart.sh/${linked}`);
+    terminal.log(`Link created! https://gart.sh/${linked} | Copied to clipboard`);
+    navigator.clipboard.writeText(`https://gart.sh/${linked}`);
   }
 
   // keypress
