@@ -8,7 +8,8 @@ const bookmarklet = {
     args: [],
     run: async (self: gshConsole, args: string[]) => {
         const link = '<a href="javascript:(function(){window.location=`https://gart.sh/link?url=${window.location}`})()">Shortlink</a>'
-        return link;
+        const qr = '<a href="javascript:(function(){window.location=`https://gart.sh/qr?url=${window.location}`})()">QR Code</a>'
+        return `${link} | ${qr}`
     }
 }
 

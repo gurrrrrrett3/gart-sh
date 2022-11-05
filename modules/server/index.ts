@@ -8,6 +8,8 @@ import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketDa
 import InstanceManager from "./instanceManager";
 import ShortLinkManager from "../links";
 import { config } from "dotenv";
+import qr from "../../sandbox/bin/qr";
+import gshConsole from "../console";
 
 const args = process.argv.slice(2);
 if (args.includes("--dev")) {
@@ -44,6 +46,17 @@ app.get("/link", async (req, res) => {
   const qs = req.query;
   if (qs.url) {
     res.redirect(`/?linked=${await ShortLinkManager.createLink(qs.url as string)}`);
+  } else {
+    res.redirect(`/?error=No+URL+provided`);
+  }
+})
+
+app.get("/qr", async (req, res) => {
+  const qs = req.query;
+  if (qs.url) {
+
+    const r = await qr.run(undefined as any, [qs.url as string, "--shortlink"])
+    res.redirect(`/?log=${r}`);
   } else {
     res.redirect(`/?error=No+URL+provided`);
   }

@@ -31,6 +31,7 @@ setTimeout(() => {
   // qs handling
 
   const linked = qs.get("linked");
+  const qr = qs.get("qr");
   const log = qs.get("log");
   const error = qs.get("error");
 
