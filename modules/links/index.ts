@@ -1,24 +1,8 @@
 import { db } from "../..";
 
 export default class ShortLinkManager {
-  static links: {
-    [key: string]: string;
-  } = {};
-
-  static async init() {
-    // load links from database
-
-    db.link.findMany().then((links) => {
-      links.forEach((link) => {
-        this.links[link.key] = link.url;
-      });
-    });
-  }
-
   static async createLink(url: string) {
-    const key = this.generateKey();
-    this.links[key] = url;
-
+    const key = await this.generateKey();
     // save link to database
     await db.link.create({
       data: {
@@ -30,19 +14,24 @@ export default class ShortLinkManager {
     return key;
   }
 
-  static generateKey(): string {
+  static async generateKey(): Promise<string> {
     // generate a random key that is not already in use (6 characters)
     const key = Math.random().toString(36).substring(2, 8);
-    if (this.links.hasOwnProperty(key)) {
-      return this.generateKey();
+    if (await db.link.findUnique({ where: { key } })) {
+      return await this.generateKey();
     }
     return key;
   }
 
-  static getLink(key: string) {
-    if (this.links.hasOwnProperty(key)) {
+  static async getLink(key: string) {
+    const link = await db.link.findUnique({
+      where: {
+        key,
+      },
+    });
+    if (link) {
       // update link in database
-      db.link.update({
+      await db.link.update({
         where: {
           key,
         },
@@ -54,12 +43,12 @@ export default class ShortLinkManager {
         },
       });
 
-      return this.links[key];
+      return link.url;
     } else return undefined;
   }
 
   static async getStats(key: string) {
-    if (this.links.hasOwnProperty(key)) {
+    if (await db.link.findUnique({ where: { key } })) {
       const link = await db.link.findUnique({
         where: {
           key,

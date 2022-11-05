@@ -54,8 +54,8 @@ io.on("connection", (socket) => {
   socket.emit("id", id);
 });
 
-app.get("/:key", (req, res) => {
-  const url = ShortLinkManager.getLink(req.params.key);
+app.get("/:key", async (req, res) => {
+  const url = await ShortLinkManager.getLink(req.params.key);
   if (url) {
     res.redirect(url);
   } else {
