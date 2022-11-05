@@ -1,14 +1,22 @@
 import express from "express";
 import path from "path";
 import http from "http";
+import https from "https";
 import socket from "socket.io";
+import fs from "fs";
 import { ClientToServerEvents, InterServerEvents, ServerToClientEvents, SocketData } from "../types";
 import InstanceManager from "./instanceManager";
 import ShortLinkManager from "../links";
+import { config } from "dotenv";
+
+config();
 
 const im = new InstanceManager();
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer({
+  key: fs.readFileSync(process.env.KEY as string),
+  cert: fs.readFileSync(process.env.CERT as string),
+}, app);
 
 const io = new socket.Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(
   server
@@ -40,6 +48,6 @@ app.get("/:key", (req, res) => {
   }
 });
 
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, () => {
   console.log("Server listening on port 3000");
 });
