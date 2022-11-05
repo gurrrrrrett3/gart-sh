@@ -31,8 +31,9 @@ const help = {
       const files = readdirSync(path.resolve("./dist/sandbox/bin"), "utf8");
       return files.map((file: string) => {
         const c = require(path.resolve(`./dist/sandbox/bin/${file}`)).default;
+        if (c.hidden) return "undefined";
         return `${c.name} - ${c.desc}`;
-      });
+      }).filter((file: string) => file != "undefined")
     }
   },
 };
