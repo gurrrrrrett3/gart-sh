@@ -1,7 +1,6 @@
 import gsh from "./modules/terminal";
 import { io, Socket } from "socket.io-client";
 import { ClientToServerEvents, ServerToClientEvents } from "../../modules/types";
-import link from "../../sandbox/bin/link";
 
 // please note that the types are reversed
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
@@ -29,7 +28,7 @@ setTimeout(() => {
   const linked = qs.get("linked");
 
   if (linked) {
-    terminal.log(`Link created! https://gart.sh/${linked} | <button onclick="navigator.clipboard.writeText('https://gart.sh/${link}')" >Copy</button>`);
+    terminal.log(`Link created! https://gart.sh/${linked} | <button onclick="navigator.clipboard.writeText('https://gart.sh/${linked}')" >Copy</button>`);
   }
 
   // keypress
