@@ -8,15 +8,17 @@ export default class gshTerminal {
   public scrollLocation: number = 0;
   public location: string = "/home/gart";
   public user = "gart";
-  public ver = "0.0.1";
+  public ver = "0.0.0";
   public cursor = '<span class="cursor" id="cursor">_</span>';
   public cursorLocation = 0;
   public id = "";
+  public isMobile = false;
 
   constructor(public socket: Socket<ServerToClientEvents, ClientToServerEvents>) {
-    socket.on("id", (id) => {
+    socket.on("id", (id, version) => {
       if (this.id == "") {
         this.id = id;
+        this.ver = version;
 
         this.init();
       } else {

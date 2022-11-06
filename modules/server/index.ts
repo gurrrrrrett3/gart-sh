@@ -75,7 +75,10 @@ app.get("/qr", async (req, res) => {
 
 io.on("connection", (socket) => {
   const id = im.createInstance(socket);
-  socket.emit("id", id);
+  socket.emit("id", 
+    id,
+    JSON.parse(fs.readFileSync(path.resolve("./package.json")).toString()).version,
+  );
 });
 
 app.get("/:key", async (req, res) => {

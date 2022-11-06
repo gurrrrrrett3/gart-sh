@@ -13,8 +13,14 @@
     <form id="paste-form" hidden>
       <label for="paste">Paste:</label>
       <input type="text" id="paste" />
-      <input type="submit" id="paste-submit" hidden /> 
+      <input type="submit" id="paste-submit" hidden />
     </form>
+    
+    <p id="mobile-text" style="position: absolute; bottom: 0%; left: 1%" hidden>Mobile Mode<br>Features limited</p>
+    <button id="keyboard" style="position: absolute; bottom: 1%; right: 1%; z-index: 0" hidden>
+      Keyboard
+    </button>
+    <input id="keyboard-input" class="visually-hidden" hidden />
   </body>
 </html>
 
@@ -102,9 +108,14 @@
     color: #f0f;
   }
 
-  .qr {
-    line-height: 0%;
-    margin: 0;
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    border: 0;
     padding: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
   }
 </style>
