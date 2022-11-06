@@ -11,6 +11,7 @@ export default class gshTerminal {
   public ver = "0.0.0";
   public cursor = '<span class="cursor" id="cursor">_</span>';
   public cursorLocation = 0;
+  public screenLines = 0;
   public id = "";
   public isMobile = false;
 
@@ -70,18 +71,21 @@ export default class gshTerminal {
 
   public update() {
     const terminal = document.getElementById("terminal");
+
+    const lines = this.instanceLog.slice(this.scrollLocation);
+
     if (terminal && this.cursorLocation === 0) {
-      terminal.innerHTML = this.instanceLog.join("<br>") + this.cursor;
+      terminal.innerHTML = lines.join("<br>") + this.cursor;
     } else if (terminal && this.cursorLocation < 0) {
       // underline the char of line length + cursorLocation
-      const line = this.instanceLog[this.instanceLog.length - 1];
+      const line = lines[lines.length - 1];
       const lineLength = line.length;
       const cursorLocation = lineLength + this.cursorLocation;
       const lineBeforeCursor = line.slice(0, cursorLocation);
       const lineAfterCursor = line.slice(cursorLocation + 1, lineLength);
       const cursor = line[cursorLocation] === " " ? "_" : line[cursorLocation];
       terminal.innerHTML =
-        this.instanceLog.slice(0, this.instanceLog.length - 1).join("<br>") +
+      lines.slice(0, lines.length - 1).join("<br>") +
         "<br>" +
         lineBeforeCursor +
         '<span class="cursor">' +
@@ -89,6 +93,15 @@ export default class gshTerminal {
         "</span>" +
         lineAfterCursor;
     }
+
+    // scroll to bottom
+    if (terminal) {
+      window.scrollTo({
+        top: 999999,
+        behavior: "smooth",
+      })
+    }
+
   }
 
   public log(...message: string[]) {
@@ -133,6 +146,7 @@ export default class gshTerminal {
 
   public clear() {
     this.instanceLog = [this.getPrompt()];
+    this.scrollLocation = 0;
     this.update();
   }
 
@@ -156,6 +170,16 @@ export default class gshTerminal {
     }
 
     return "";
+  }
+
+  public getCurrentLines() {
+    const terminal = document.getElementById("terminal");
+    if (terminal) {
+      const lines = terminal.innerHTML.split("<br>");
+      return lines.length;
+    }
+
+    return 0;
   }
   
 }

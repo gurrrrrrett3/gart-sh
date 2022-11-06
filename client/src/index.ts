@@ -29,7 +29,7 @@ addEventListener("load", () => {
     });
   }
 
-  console.log(mobile)
+  terminal.screenLines = estimateLines();
 });
 
 document.getElementById("paste-submit")?.addEventListener("click", (e) => {
@@ -200,7 +200,8 @@ function processKeypress(key: string, e?: KeyboardEvent) {
 function estimateLines() {
   // estimate the number of lines using the height of the terminal
   const terminal = document.getElementById("terminal") as HTMLDivElement;
-  const terminalHeight = terminal.getBoundingClientRect().height;
-  const lineHeight = parseFloat(getComputedStyle(terminal).lineHeight);
+  const terminalHeight = window.innerHeight;
+  const lineHeight = parseFloat(getComputedStyle(terminal).fontSize.replace("px", ""));
+  console.log(terminalHeight, lineHeight, getComputedStyle(terminal).fontSize.replace("px", ""));
   return Math.floor(terminalHeight / lineHeight);
 }
