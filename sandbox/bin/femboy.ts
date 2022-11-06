@@ -15,7 +15,7 @@ const femboy = {
         }
     ],
     run: async (self: gshConsole, args: string[]) => {
-       self.openLink("https://gart.sh/x7x39w")
+       self.openLink("https://gart.sh/5cz4sm")
     }
 }
 
