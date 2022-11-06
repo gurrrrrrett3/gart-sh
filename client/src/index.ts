@@ -70,6 +70,18 @@ setTimeout(() => {
   if (from) {
     terminal.log(`<button onclick="window.location.href = '${from}'">Return to ${new URL(from).host}</button>`);
   }
+
+  // cookie handling
+  const cookie = document.cookie;
+  if (cookie) {
+    const cookieSplit = cookie.split(";");
+    const session = cookieSplit.find((c) => c.startsWith("session="));
+    if (session) {
+      const sessionSplit = session.split("=");
+      const sessionID = sessionSplit[1];
+      socket.emit("session", sessionID);
+    }
+  }
   
 
   // keypress

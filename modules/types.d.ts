@@ -13,10 +13,12 @@ interface ServerToClientEvents {
     openLink: (link: string) => void;
     clear: () => void;
     location: (location: string) => void;
+    user: (user: string) => void;
   }
   
   interface ClientToServerEvents {
     run: (input: string, callback: (e: string | string[] | void) => void) =>  void;
+    session: (session: string) => void;
   }
   
   interface InterServerEvents {

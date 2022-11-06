@@ -43,6 +43,10 @@ export default class gshTerminal {
     socket.on("location", (location) => {
       this.location = location;
     })
+    socket.on("user", (user) => {
+      this.user = user;
+      this.log(`<span class="green">Welcome back, ${user}!</span>`);
+    });
   }
 
   public init() {

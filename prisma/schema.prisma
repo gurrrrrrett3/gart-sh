@@ -6,16 +6,53 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Link {
-  id          String  @id @default(cuid())
-  key         String  @unique
-  url         String
-  uses        Int     @default(0)
-  options     String?
-  createdAt   DateTime @default(now())
-  lastUsedAt  DateTime @default(now())
+  id         String   @id @default(cuid())
+  key        String   @unique
+  url        String
+  uses       Int      @default(0)
+  options    String?
+  owner      User?    @relation(fields: [ownerId], references: [id], name: "Owner")
+  ownerId    String?
+  createdAt  DateTime @default(now())
+  lastUsedAt DateTime @default(now())
+  UsersSaved User[]
+}
+
+model State {
+  id        String   @id @default(cuid())
+  state     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model Token {
+  id           String   @id @default(cuid())
+  accessToken  String   @unique
+  refreshToken String   @unique
+  tokenType    String
+  scope        String
+  createdAt    DateTime @default(now())
+  expiresAt    DateTime
+  User         User[]
+}
+
+model User {
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  token      Token?   @relation(fields: [tokenId], references: [id])
+  tokenId    String?
+  discordId  String   @unique
+  username   String
+  avatar     String?
+  savedLinks Link[]
+  LinksOwned Link[]   @relation("Owner")
+}
+
+model SessionLink {
+  id     String @id @default(cuid())
+  userId String
 }

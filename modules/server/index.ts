@@ -10,6 +10,7 @@ import ShortLinkManager from "../links";
 import { config } from "dotenv";
 import qrcode from "qrcode";
 import apiRouter from "./routes/api";
+import authRouter from "./routes/auth";
 import cors from "cors"
 
 const args = process.argv.slice(2);
@@ -35,6 +36,7 @@ const io = new socket.Server<ClientToServerEvents, ServerToClientEvents, InterSe
 app.use(cors())
 
 app.use("/api", apiRouter)
+app.use("/auth", authRouter)
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./client/index.html"));
 });
