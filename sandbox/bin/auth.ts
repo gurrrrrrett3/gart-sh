@@ -6,7 +6,7 @@ import PathUtils from "../../modules/util/pathUtils";
 
 const auth = {
     name: 'auth',
-    desc: "Open a file and print it's contents to the console",
+    desc: "Authenticate with the server",
     args: [
         {
             name: 'command',
@@ -19,6 +19,10 @@ const auth = {
         const command: "login" | "logout" | "status" = args[0] as any;
         if (command === "login") {
             self.openLink("/auth/login")
+        } else if (command === "logout") {
+            self.openLink("/auth/logout")
+        }   else if (command === "status") {
+           self.request("/auth/status")
         }
     }
 }

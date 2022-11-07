@@ -81,4 +81,8 @@ export default class gshConsole {
     this.socket.emit("location", location);
     this.location = location;
   }
+
+  public request(path: string) {
+    this.socket.emit("request", path);
+  }
 }

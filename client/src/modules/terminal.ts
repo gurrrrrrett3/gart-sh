@@ -48,6 +48,9 @@ export default class gshTerminal {
       this.user = user;
       this.log(`<span class="green">Welcome back, ${user}!</span>`);
     });
+    socket.on("request", async (url) => {
+      this.log(await fetch(url).then((res) => res.text()))
+    })
   }
 
   public init() {
@@ -57,6 +60,7 @@ export default class gshTerminal {
         "",
         '<a href="https://github.com/gurrrrrrett3">@gurrrrrrett3</a> 2022',
         "Type 'help' for a list of commands",
+        "Type `about` for more info",
         "",
       ].join("<br>")
     );
@@ -110,7 +114,7 @@ export default class gshTerminal {
   }
 
   public openLink(link: string) {
-    window.open(link, "_blank");
+    window.location.href = link;
   }
 
   public getPrompt() {

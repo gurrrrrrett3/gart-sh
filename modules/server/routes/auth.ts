@@ -188,4 +188,66 @@ router.get("/callback", async (req, res) => {
   }
 });
 
+router.get("/logout", async (req, res) => {
+  if (!req.cookies || !req.cookies.session) {
+    res.redirect("/?error=You+are+not+logged+in");
+    return;
+  }
+
+  const session = await db.sessionLink.findFirst({
+    where: {
+      id: req.cookies.session,
+    },
+  });
+
+  if (!session) {
+    res.redirect("/?error=You+are+not+logged+in");
+    return;
+  }
+
+  await db.sessionLink.delete({
+    where: {
+      id: session.id
+    },
+  });
+
+  res.clearCookie("session");
+  res.redirect("/?log=<span+class=\"green\">Logged+out!</span>");
+
+});
+
+router.get("/status", async (req, res) => {
+  const s = req.cookies?.session;
+  if (!s) {
+    res.send(`You are not logged in.`);
+    return;
+  } else {
+    const session = await db.sessionLink.findFirst({
+      where: {
+        id: s,
+      },
+    });
+
+    if (!session) {
+      res.send(`You are not logged in.`);
+      return;
+    }
+
+    const user = await db.user.findFirst({
+      where: {
+        id: session.userId,
+      },
+    });
+
+    if (!user) {
+      res.send(`You are not logged in.`);
+      return;
+    }
+
+    res.send(`You are logged in as <span class="cyan">${user.username}</span>, with id <span class="green">${user.id}</span> (<span class="green">${user.discordId}</span>)`);
+  }
+  
+  
+})
+
 export default router;

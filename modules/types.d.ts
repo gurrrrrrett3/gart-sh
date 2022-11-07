@@ -11,6 +11,7 @@ interface ServerToClientEvents {
     id: (id: string, version: string) => void;
     log: (message: string) => void;
     openLink: (link: string) => void;
+    request: (path: string) => void;
     clear: () => void;
     location: (location: string) => void;
     user: (user: string) => void;
