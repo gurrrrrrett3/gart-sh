@@ -93,6 +93,10 @@ setTimeout(() => {
     
   });
 
+  // cursor blink
+  setInterval(() => {
+    document.getElementById("cursor")?.classList.toggle("cursor-blink");
+  }, 500);
   
 }, 1000);
 
