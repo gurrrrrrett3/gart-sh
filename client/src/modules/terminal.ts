@@ -69,7 +69,7 @@ export default class gshTerminal {
         "",
         '<a href="https://github.com/gurrrrrrett3">@gurrrrrrett3</a> 2022',
         "Type 'help' for a list of commands",
-        "Type `about` for more info",
+        "Type 'about' for more info",
         "",
       ].join("<br>")
     );
