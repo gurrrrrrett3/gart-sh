@@ -216,8 +216,11 @@ router.get("/logout", async (req, res) => {
 
 });
 
-router.get("/status", async (req, res) => {
-  const s = req.cookies?.session;
+router.post("/status", async (req, res) => {
+  if (!req.body) return res.send(`You are not logged in. <a href="/auth/login">Login</a>`);
+  console.log(req.body)
+  const s = req.body.split("=")[1]
+
   if (!s) {
     res.send(`You are not logged in. <a href="/auth/login">Login</a>`);
     return;
