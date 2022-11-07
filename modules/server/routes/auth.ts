@@ -219,7 +219,7 @@ router.get("/logout", async (req, res) => {
 router.get("/status", async (req, res) => {
   const s = req.cookies?.session;
   if (!s) {
-    res.send(`You are not logged in.`);
+    res.send(`You are not logged in. <a href="/auth/login">Login</a>`);
     return;
   } else {
     const session = await db.sessionLink.findFirst({
@@ -229,7 +229,7 @@ router.get("/status", async (req, res) => {
     });
 
     if (!session) {
-      res.send(`You are not logged in.`);
+      res.send(`You are not logged in. <span class="red">Session expired</span> <a href="/auth/login">Login</a>`);
       return;
     }
 
@@ -240,7 +240,7 @@ router.get("/status", async (req, res) => {
     });
 
     if (!user) {
-      res.send(`You are not logged in.`);
+      res.send(`You are not logged in. <span class="red">User not found</span> <a href="/auth/login">Login</a>`);
       return;
     }
 
