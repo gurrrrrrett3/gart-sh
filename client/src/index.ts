@@ -92,6 +92,8 @@ setTimeout(() => {
     processKeypress(key, e);
     
   });
+
+  
 }, 1000);
 
 keyboardInput.addEventListener("input", (e) => {

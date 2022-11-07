@@ -182,21 +182,26 @@ router.get("/callback", async (req, res) => {
       return;
     }
 
-    res.cookie("session", session.id);
+    res.cookie("session", session.id, {
+      httpOnly: false,
+      maxAge:  1000 * 60 * 60 * 24 * 7
+    });
 
     res.redirect(`/?log=<span+class="green">Logged+in+as+${userResponse.username}!</span>`);
   }
 });
 
 router.get("/logout", async (req, res) => {
-  if (!req.cookies || !req.cookies.session) {
+  if (!req.body || !req.body.cookie || typeof req.body.cookie != "string") return res.redirect(`/?error=You+are+not+logged+in.+<a+href="/auth/login">Login</a>`);
+  const s = req.body.cookie.split("=")[1]
+  if (!s) {
     res.redirect("/?error=You+are+not+logged+in");
     return;
   }
 
   const session = await db.sessionLink.findFirst({
     where: {
-      id: req.cookies.session,
+      id: s,
     },
   });
 
@@ -217,9 +222,9 @@ router.get("/logout", async (req, res) => {
 });
 
 router.post("/status", async (req, res) => {
-  if (!req.body) return res.send(`You are not logged in. <a href="/auth/login">Login</a>`);
   console.log(req.body)
-  const s = req.body.split("=")[1]
+  if (!req.body || !req.body.cookie || typeof req.body.cookie != "string") return res.send(`You are not logged in. <a href="/auth/login">Login</a>`);
+  const s = req.body.cookie.split("=")[1]
 
   if (!s) {
     res.send(`You are not logged in. <a href="/auth/login">Login</a>`);

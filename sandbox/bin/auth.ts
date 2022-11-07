@@ -20,7 +20,7 @@ const auth = {
         if (command === "login") {
             self.openLink("/auth/login")
         } else if (command === "logout") {
-            self.openLink("/auth/logout")
+            self.request("/auth/logout", "GET")
         }   else if (command === "status") {
            self.request("/auth/status")
         }
