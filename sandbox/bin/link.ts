@@ -17,7 +17,7 @@ const link = {
     ],
     options: [
         {
-            name: '--noembed',
+            name: 'noembed',
             desc: 'Prevent link from being embedded',
         }
     ],
