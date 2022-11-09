@@ -28,7 +28,7 @@ const help = {
         `<ul>${c.args.map((arg: any) => `<li><span class="green">${arg.name}:</span> ${arg.desc}</li>`).join("")}</ul>`,
         `<span class="green">Options:</span>`,
         // `<ul>${c.options.map((option: any) => `<li><span class="green">-${option.name}:</span><span class="cyan">${option.alias ? ` (Alias: -${option.alias})` : ""}</span> ${option.desc}</li>`).join("")}</ul>`,
-        `<ul>${c.options.map((option: any) => `<li><span class="green">-${option.name}:</span> ${option.desc}</li>`).join("")}</ul>`,
+        `<ul>${c.options.map((option: any) => `<li><span class="green">--${option.name}:</span> ${option.desc}</li>`).join("")}</ul>`,
       ].join("<br>");
 
       return help;
