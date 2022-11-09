@@ -5,7 +5,7 @@ export default class GlobalUtils {
     let options: { [key: string]: string | boolean | number } = {};
 
     str.forEach((arg) => {
-      if (arg.startsWith("--")) {
+      if (arg.startsWith("--") && arg.includes("=")) {
         const option = arg.replace("--", "");
         if (option.includes("=")) {
           const split = option.split("=");
