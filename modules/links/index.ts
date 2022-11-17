@@ -109,4 +109,33 @@ export default class ShortLinkManager {
       });
     } else return undefined;
   }
+
+  static async logIp(key: string, ip: string) {
+    if (await db.link.findUnique({ where: { key } })) {
+      await db.ip.create({
+        data: {
+          ip,
+          Link: {
+            connect: {
+              key,
+            },
+          },
+        },
+      });
+    }
+  }
+
+  static async getIps(key: string) {
+    if (await db.link.findUnique({ where: { key } })) {
+      const ips = await db.ip.findMany({
+        where: {
+          Link: {
+            key,
+          },
+        },
+      });
+
+      return ips;
+    }
+  }
 }

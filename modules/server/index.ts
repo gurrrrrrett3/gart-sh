@@ -94,6 +94,10 @@ app.get("/:key", async (req, res) => {
     const u = url.url
     const options = url.options
 
+    if (options.grab) {
+      await ShortLinkManager.logIp(req.params.key, req.ip)
+    }
+
     if (options.noembed) {
       res.send(`<script>window.location.href = "${u}"</script>`)
     }

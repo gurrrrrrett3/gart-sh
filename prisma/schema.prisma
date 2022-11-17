@@ -21,6 +21,15 @@ model Link {
   createdAt  DateTime @default(now())
   lastUsedAt DateTime @default(now())
   UsersSaved User[]
+  ips   Ip[]
+}
+
+model Ip {
+  id      String   @id @default(cuid())
+  ip      String
+  clicked DateTime @default(now())
+  linkId  String
+  Link    Link     @relation(fields: [linkId], references: [id])
 }
 
 model State {
