@@ -62,12 +62,14 @@ app.get("/qr", async (req, res) => {
   const qs = req.query;
   if (qs.url && typeof qs.url === "string") {
 
-    const out = await qrcode.toDataURL(await ShortLinkManager.createLink(qs.url), {
+    const link = await ShortLinkManager.createLink(qs.url)
+    const out = await qrcode.toDataURL(link.key!, {
       margin: 0.5,
       width: 512,
     });
 
-    const dataURL = await ShortLinkManager.createLink(out)
+    const dataLink = await ShortLinkManager.createLink(out)
+    const dataURL = dataLink.key!
 
     res.redirect(`/?log=QR+Code+created!+<br><img+src="${dataURL}"/>&from=${qs.url}`);
   } else {
