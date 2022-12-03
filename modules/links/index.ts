@@ -19,7 +19,14 @@ export default class ShortLinkManager {
   }
 
   static async createLink(url: string, options?: { [key: string]: string | boolean | number }) {
-    const key = await this.generateKey();
+    const key = options?.key && typeof options.key == "string" ? options.key as string : await this.generateKey();
+
+    if (await db.link.findUnique({ where: { key } })) {
+      return {
+        error: "Key already exists",
+      }
+    }
+
     // save link to database
     await db.link.create({
       data: {
@@ -29,7 +36,9 @@ export default class ShortLinkManager {
       },
     });
 
-    return key;
+    return {
+      key,
+    }
   }
 
   static async generateKey(): Promise<string> {
