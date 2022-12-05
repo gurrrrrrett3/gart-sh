@@ -60,7 +60,7 @@ export default class gshConsole {
       const res = await command.run(this, args);
       return res;
     } else {
-      this.log(`gsh: Command not found: ${cmd}`);
+      return `gsh: Command not found: ${cmd}`
     }
   }
 

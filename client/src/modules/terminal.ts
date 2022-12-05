@@ -165,7 +165,7 @@ export default class gshTerminal {
 
   public getPreviousCommand() {
     if (this.commandIndex < this.commands.length) {
-      this.commandIndex--;
+      this.commandIndex++;
       this.setCurrentInput(this.commands[this.commandIndex - 1]);
 
       return this.commands[this.commandIndex - 1] == undefined ? "" : this.commands[this.commandIndex - 1];
@@ -175,8 +175,8 @@ export default class gshTerminal {
   }
 
   public getNextCommand() {
-    if (this.commandIndex > 0) {
-      this.commandIndex++;
+    if (this.commandIndex > 1) {
+      this.commandIndex--;
       this.setCurrentInput(this.commands[this.commandIndex - 1]);
 
       return this.commands[this.commandIndex - 1] == undefined ? "" : this.commands[this.commandIndex - 1];

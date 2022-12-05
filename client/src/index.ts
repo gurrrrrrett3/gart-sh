@@ -56,7 +56,9 @@ setTimeout(() => {
   const from = qs.get("from");
 
   if (linked) {
-    terminal.log(`Link created! https://gart.sh/${linked} | <button onclick="navigator.clipboard.writeText('https://gart.sh/${linked}')" >Copy</button>`);
+    terminal.log(
+      `Link created! https://gart.sh/${linked} | <button onclick="navigator.clipboard.writeText('https://gart.sh/${linked}')" >Copy</button>`
+    );
   }
 
   if (log) {
@@ -68,7 +70,9 @@ setTimeout(() => {
   }
 
   if (from) {
-    terminal.log(`<button onclick="window.location.href = '${from}'">Return to ${new URL(from).host}</button>`);
+    terminal.log(
+      `<button onclick="window.location.href = '${from}'">Return to ${new URL(from).host}</button>`
+    );
   }
 
   // cookie handling
@@ -82,7 +86,6 @@ setTimeout(() => {
       socket.emit("session", sessionID);
     }
   }
-  
 
   // keypress
 
@@ -90,36 +93,32 @@ setTimeout(() => {
     if (inPaste) return;
     const key = !mobile ? e.key : keyboardInput.value;
     processKeypress(key, e);
-    
   });
 
   // cursor blink
   setInterval(() => {
     document.getElementById("cursor")?.classList.toggle("cursor-blink");
   }, 500);
-  
 }, 1000);
 
 keyboardInput.addEventListener("input", (e) => {
-  let key = (e.target as HTMLInputElement).value
+  let key = (e.target as HTMLInputElement).value;
 
   if (key.startsWith(",")) {
     key = key.slice(1);
-   } else if (key == "") {
+  } else if (key == "") {
     key = "Backspace";
-   }
+  }
 
-   if (key.endsWith(",")) {
-    key = key.slice(0, -1).toLowerCase()
-   }
-  
+  if (key.endsWith(",")) {
+    key = key.slice(0, -1).toLowerCase();
+  }
+
   processKeypress(key);
 
   keyboardInput.value = ",";
   keyboardInput.setSelectionRange(1, 1);
 });
-
-
 
 function processKeypress(key: string, e?: KeyboardEvent) {
   if (e && e.ctrlKey) {
@@ -175,14 +174,34 @@ function processKeypress(key: string, e?: KeyboardEvent) {
     case "Tab":
       if (e) e.preventDefault();
       break;
+
+    // keys that should be ignored
     case "Shift":
     case "Control":
     case "Alt":
+    case "Insert":
+    case "Delete":
+    case "Home":
+    case "End":
+    case "PageUp":
+    case "PageDown":
     case "OS":
     case "CapsLock":
     case "Meta":
     case "ContextMenu":
     case "Escape":
+    case "F1":
+    case "F2":
+    case "F3":
+    case "F4":
+    case "F5":
+    case "F6":
+    case "F7":
+    case "F8":
+    case "F9":
+    case "F10":
+    case "F11":
+    case "F12":
     case "Unidentified":
       break;
     default:
