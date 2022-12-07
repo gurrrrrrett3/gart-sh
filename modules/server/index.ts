@@ -87,7 +87,12 @@ io.on("connection", (socket) => {
 
 app.get("/:key", async (req, res) => {
   const url = await ShortLinkManager.getLink(req.params.key);
-  console.log(url);
+
+  res.setHeader('Content-Type', 'image/webp');
+  res.setHeader("cache-control", "no-cache, no-store, must-revalidate");
+  res.setHeader("pragma", "no-cache");
+  res.setHeader("expires", "0");
+
   if (url && typeof url === "string") {
     res.redirect(url);
   } else if (url && typeof url === "object") {
