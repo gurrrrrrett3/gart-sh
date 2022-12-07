@@ -21,6 +21,7 @@
     "webpack-cli": "^4.10.0"
   },
   "dependencies": {
+    "@napi-rs/canvas": "^0.1.30",
     "@prisma/client": "^4.5.0",
     "@types/node-fetch": "^2.6.2",
     "cors": "^2.8.5",
