@@ -4,8 +4,8 @@ import path from "path";
 import htmlifyImage from "../../../util/htmlifyImage";
 const router = Router();
 
-router.get("/1", async (req, res) => {
-  const bg = await loadImage(path.resolve("./assets/images/ipmeme1.jpg"));
+router.get("/:id", async (req, res) => {
+  const bg = await loadImage(path.resolve(`./assets/images/ipmeme${parseInt(req.params.id)}.png`));
 
   const canvas = createCanvas(bg.width, bg.height);
   const ctx = canvas.getContext("2d");
@@ -19,7 +19,7 @@ router.get("/1", async (req, res) => {
   if (ip.substr(0, 7) == "::ffff:") {
     ip = ip.substr(7);
   }
-  
+
   const textWidth = ctx.measureText(ip).width;
 
   ctx.fillText(ip, (bg.width - textWidth) / 2, canvas.height - 50);
