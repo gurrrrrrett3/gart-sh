@@ -11,6 +11,7 @@ import { config } from "dotenv";
 import qrcode from "qrcode";
 import apiRouter from "./routes/api";
 import authRouter from "./routes/auth";
+import ipMemeRouter from "./routes/images/ipmeme";
 import cors from "cors"
 
 const args = process.argv.slice(2);
@@ -37,6 +38,8 @@ app.use(cors())
 
 app.use("/api", apiRouter)
 app.use("/auth", authRouter)
+app.use("/images/ipmeme", ipMemeRouter)
+
 app.get("/", (req, res) => {
   res.sendFile(path.resolve("./client/index.html"));
 });
