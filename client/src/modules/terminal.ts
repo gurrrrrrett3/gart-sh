@@ -1,6 +1,6 @@
 import { Socket } from "socket.io-client";
 import { ClientToServerEvents, ServerToClientEvents } from "../../../modules/types";
-
+import "./secrets";
 export default class gshTerminal {
   public commands: string[] = [];
   public commandIndex: number = 0;
@@ -14,6 +14,8 @@ export default class gshTerminal {
   public screenLines = 0;
   public id = "";
   public isMobile = false;
+  public enabled = true;
+  public element: HTMLElement = document.getElementById("terminal") as HTMLElement;
 
   constructor(public socket: Socket<ServerToClientEvents, ClientToServerEvents>) {
     socket.on("id", (id, version) => {
@@ -67,7 +69,7 @@ export default class gshTerminal {
     this.instanceLog.push(
       [
         "",
-        '<a href="https://github.com/gurrrrrrett3">@gurrrrrrett3</a> 2022',
+        `<a href="https://github.com/gurrrrrrett3">@gurrrrrrett3</a> ${new Date().getFullYear()}`,
         "Type 'help' for a list of commands",
         "Type 'about' for more info",
         "",
@@ -83,13 +85,11 @@ export default class gshTerminal {
   }
 
   public update() {
-    const terminal = document.getElementById("terminal");
-
     const lines = this.instanceLog.slice(this.scrollLocation);
 
-    if (terminal && this.cursorLocation === 0) {
-      terminal.innerHTML = lines.join("<br>") + this.cursor;
-    } else if (terminal && this.cursorLocation < 0) {
+    if (this.element && this.cursorLocation === 0) {
+      this.element.innerHTML = lines.join("<br>") + this.cursor;
+    } else if (this.element && this.cursorLocation < 0) {
       // underline the char of line length + cursorLocation
       const line = lines[lines.length - 1];
       const lineLength = line.length;
@@ -97,7 +97,7 @@ export default class gshTerminal {
       const lineBeforeCursor = line.slice(0, cursorLocation);
       const lineAfterCursor = line.slice(cursorLocation + 1, lineLength);
       const cursor = line[cursorLocation] === " " ? "_" : line[cursorLocation];
-      terminal.innerHTML =
+      this.element.innerHTML =
       lines.slice(0, lines.length - 1).join("<br>") +
         "<br>" +
         lineBeforeCursor +
@@ -108,7 +108,7 @@ export default class gshTerminal {
     }
 
     // scroll to bottom
-    if (terminal) {
+    if (this.element) {
       window.scrollTo({
         top: 999999,
         behavior: "smooth",
@@ -186,9 +186,8 @@ export default class gshTerminal {
   }
 
   public getCurrentLines() {
-    const terminal = document.getElementById("terminal");
-    if (terminal) {
-      const lines = terminal.innerHTML.split("<br>");
+    if (this.element) {
+      const lines = this.element.innerHTML.split("<br>");
       return lines.length;
     }
 

@@ -5,7 +5,7 @@ import { ClientToServerEvents, ServerToClientEvents } from "../../modules/types"
 // please note that the types are reversed
 const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io();
 
-const terminal = new gsh(socket);
+export const terminal = new gsh(socket);
 let input = "";
 
 let inPaste = false;
@@ -91,6 +91,7 @@ setTimeout(() => {
 
   addEventListener("keydown", async (e) => {
     if (inPaste) return;
+    if (!terminal.enabled) return;
     const key = !mobile ? e.key : keyboardInput.value;
     processKeypress(key, e);
   });
