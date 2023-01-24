@@ -7,14 +7,7 @@ import PathUtils from "../../modules/util/pathUtils";
 const uwu = {
     name: 'uwu',
     desc: "uwu",
-    args: [
-        {
-            name: 'file',
-            desc: 'The file to open',
-            type: 'string',
-            required: true,
-        }
-    ],
+    args: [],
     hidden: true,
     run: async (self: gshConsole, args: string[]) => {
        self.openLink("https://reddit.com/r/hentai")

@@ -9,7 +9,7 @@ const about = {
   run: async (self: gshConsole, args: string[]) => {
     return [
         "<h1 class=\"green\">Hey! o/</h1>",
-        "<p>I'm Gart, a 12 year old backend application developer. ",
+        "<p>I'm Gart, a 20 year old backend application developer. ",
         "Most of my projects are in <span style=\"color: #2f74c0;\">TypeScript</span>, <span style=\"color: #dea584\">Rust</span>, and <span style=\"color: #f0931c;\">Java</span>.<br>",
         "Currently working on <a href=\"https://gart.sh\">gart.sh</a>, my personal website and sandbox.</p>",
         "I'm currently a developer at <a href=\"https://craftyourtown.com\" style=\"color: #0d85d8\">CraftYourTown</a>. ",
