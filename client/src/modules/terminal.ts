@@ -9,6 +9,7 @@ export default class gshTerminal {
   public location: string = "/home/gart";
   public user = "gart";
   public ver = "0.0.0";
+  public motd = "";
   public cursor = '<span class="cursor" id="cursor">_</span>';
   public cursorLocation = 0;
   public screenLines = 0;
@@ -18,10 +19,11 @@ export default class gshTerminal {
   public element: HTMLElement = document.getElementById("terminal") as HTMLElement;
 
   constructor(public socket: Socket<ServerToClientEvents, ClientToServerEvents>) {
-    socket.on("id", (id, version) => {
+    socket.on("id", (id, version, motd) => {
       if (this.id == "") {
         this.id = id;
         this.ver = version;
+        this.motd = motd
 
         this.init();
       } else {
@@ -72,6 +74,8 @@ export default class gshTerminal {
         `<a href="https://github.com/gurrrrrrett3">@gurrrrrrett3</a> ${new Date().getFullYear()}`,
         "Type 'help' for a list of commands",
         "Type 'about' for more info",
+        "",
+        this.motd,
         "",
       ].join("<br>")
     );

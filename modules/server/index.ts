@@ -85,6 +85,7 @@ io.on("connection", (socket) => {
   socket.emit("id", 
     id,
     JSON.parse(fs.readFileSync(path.resolve("./package.json")).toString()).version,
+    fs.readFileSync(path.resolve("./sandbox/home/gart/motd.html"), "utf8")
   );
 });
 

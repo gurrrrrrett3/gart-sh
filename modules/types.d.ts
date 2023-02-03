@@ -8,7 +8,7 @@ interface Command {
 }
 
 interface ServerToClientEvents {
-    id: (id: string, version: string) => void;
+    id: (id: string, version: string, motd: string) => void;
     log: (message: string) => void;
     openLink: (link: string) => void;
     request: (path: string, mode?: "GET" | "POST") => void;
