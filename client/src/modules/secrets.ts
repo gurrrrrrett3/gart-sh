@@ -69,7 +69,7 @@ let currentCode: number[] = [];
 
 document.addEventListener("keydown", (e) => {
     currentCode.push(e.key.toUpperCase().charCodeAt(0));
-    console.log(currentCode);
+    if (currentCode.length > 7) currentCode.shift();
     for (let i = 0; i < secrets.length; i++) {
       const secret = secrets[i];
       const activationCode = secret.activationCode;

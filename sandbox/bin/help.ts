@@ -23,12 +23,12 @@ const help = {
       let help = [
         `<span class="green">Command:</span> ${c.name}`,
         `<span class="green">Description:</span> ${c.desc}`,
-        `<span class="green">Usage:</span> ${c.name} ${c.args.map((arg: any) => arg.name).join(" ")}`,
+        `<span class="green">Usage:</span> ${c.name} ${c.args.map((arg: any) => `[${arg.name}]`).join(" ")}`,
         `<span class="green">Arguments:</span>`,
-        `<ul>${c.args.map((arg: any) => `<li><span class="green">${arg.name}:</span> ${arg.desc}</li>`).join("")}</ul>`,
+        `<ul>${c.args ? c.args.map((arg: any) => `<li><span class="${arg.required ? "orange" : "green" }">${arg.name}:</span> ${arg.desc} <span class="cyan">|</span> <span class="green">Type:</span> ${arg.type}</li>`).join("") : "No Arguements"}</ul>`,
         `<span class="green">Options:</span>`,
         // `<ul>${c.options.map((option: any) => `<li><span class="green">-${option.name}:</span><span class="cyan">${option.alias ? ` (Alias: -${option.alias})` : ""}</span> ${option.desc}</li>`).join("")}</ul>`,
-        `<ul>${c.options.map((option: any) => `<li><span class="green">--${option.name}:</span> ${option.desc}</li>`).join("")}</ul>`,
+        `<ul>${c.options ? c.options.map((option: any) => `<li><span class="green">--${option.name}:</span> ${option.desc}</li>`).join("") : "No Options"}</ul>`,
       ].join("<br>");
 
       return help;
