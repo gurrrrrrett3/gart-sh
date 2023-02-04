@@ -119,6 +119,16 @@ export default class ShortLinkManager {
     } else return undefined;
   }
 
+  static async deleteLink(key: string) {
+    if (await db.link.findUnique({ where: { key } })) {
+      await db.link.delete({
+        where: {
+          key,
+        },
+      });
+    } else return undefined;
+  }
+
   static async logIp(key: string, ip: string) {
     if (await db.link.findUnique({ where: { key } })) {
       await db.ip.create({
