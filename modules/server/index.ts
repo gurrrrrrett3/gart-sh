@@ -80,6 +80,10 @@ app.get("/qr", async (req, res) => {
   }
 })
 
+app.get("/timer", async (req, res) => {
+  res.sendFile(path.resolve("./client/pages/timer.html"));
+});
+
 io.on("connection", (socket) => {
   const id = im.createInstance(socket);
   socket.emit("id", 
@@ -119,6 +123,7 @@ app.get("/:key", async (req, res) => {
     res.redirect(`/?error=Link+not+found`);
   }
 });
+
 
 server.listen(process.env.PORT || 3000, () => {
   console.log("Server listening on port " + (process.env.PORT || 3000));
