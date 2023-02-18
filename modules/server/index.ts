@@ -84,6 +84,10 @@ app.get("/timer", async (req, res) => {
   res.sendFile(path.resolve("./client/pages/timer.html"));
 });
 
+app.get("/fanart", async (req, res) => {
+  res.sendFile(path.resolve("./client/pages/fanart.html"));
+});
+
 io.on("connection", (socket) => {
   const id = im.createInstance(socket);
   socket.emit("id", 
