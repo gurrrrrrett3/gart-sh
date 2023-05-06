@@ -132,7 +132,7 @@ app.get("/:key", async (req, res) => {
   }
 });
 
-app.get(".well-known/matrix/server", (req, res) => {
+app.get("/.well-known/matrix/server", (req, res) => {
   res.send({
     "m.server": "matrix.gart.sh:443",
   });
